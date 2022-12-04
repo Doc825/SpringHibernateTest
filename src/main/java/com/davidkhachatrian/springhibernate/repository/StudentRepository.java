@@ -1,0 +1,7 @@
+package com.davidkhachatrian.springhibernate.repository;
+
+import com.davidkhachatrian.springhibernate.entity.Student;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface StudentRepository extends JpaRepository<Student, Integer> {
+}

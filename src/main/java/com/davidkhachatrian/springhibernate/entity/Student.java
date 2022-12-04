@@ -2,6 +2,8 @@ package com.davidkhachatrian.springhibernate.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "students")
 public class Student {
@@ -9,7 +11,7 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
-    private long id;
+    private int id;
 
     @Column(name = "surname")
     private String surname;
@@ -23,6 +25,24 @@ public class Student {
     @Column(name = "activity")
     private boolean activity;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "lessons_id")
+    private Lessons lessons;
+
+    @ManyToMany
+    @JoinTable(name = "student_lesson",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "lesson_id"))
+    private List<Lessons> lessonsList;
+
+    public Lessons getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(Lessons lessons) {
+        this.lessons = lessons;
+    }
+
     public Student() {
     }
 
@@ -33,11 +53,11 @@ public class Student {
         this.activity = activity;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -71,5 +91,16 @@ public class Student {
 
     public void setActivity(boolean activity) {
         this.activity = activity;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", surname='" + surname + '\'' +
+                ", name='" + name + '\'' +
+                ", groupNum=" + groupNum +
+                ", activity=" + activity +
+                '}';
     }
 }

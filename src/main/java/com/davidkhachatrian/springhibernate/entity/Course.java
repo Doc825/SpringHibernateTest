@@ -3,6 +3,7 @@ package com.davidkhachatrian.springhibernate.entity;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "course")
@@ -11,7 +12,7 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private int id;
 
     @Column(name = "name")
     private String name;
@@ -25,6 +26,10 @@ public class Course {
     @Column(name = "activity")
     private boolean activity;
 
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "lessons_id")
+//    private List<Lessons> lessons;
+
     public Course() {
     }
 
@@ -35,11 +40,11 @@ public class Course {
         this.activity = activity;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

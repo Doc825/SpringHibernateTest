@@ -3,6 +3,7 @@ package com.davidkhachatrian.springhibernate.entity;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "lessons")
@@ -11,7 +12,7 @@ public class Lessons {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private long id;
+    private int id;
 
     @Column(name = "name")
     private String name;
@@ -20,7 +21,21 @@ public class Lessons {
     private Date dateAndTime;
 
     @Column(name = "max_grade")
-    private int maxGrade;
+    private double maxGrade;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "lessons")
+    private Course course;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lessons")
+    private List<Student> studentList;
+
+
+    @ManyToMany
+    @JoinTable(name = "student_lesson",
+            joinColumns = @JoinColumn(name = "lesson_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    private List<Student> students;
 
     public Lessons() {
     }
@@ -31,11 +46,11 @@ public class Lessons {
         this.maxGrade = maxGrade;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -55,11 +70,29 @@ public class Lessons {
         this.dateAndTime = dateAndTime;
     }
 
-    public int getMaxGrade() {
+    public double getMaxGrade() {
         return maxGrade;
     }
 
     public void setMaxGrade(int maxGrade) {
         this.maxGrade = maxGrade;
+    }
+
+    public List<Student> getStudentList() {
+        return studentList;
+    }
+
+    public void setStudentList(List<Student> studentList) {
+        this.studentList = studentList;
+    }
+
+    @Override
+    public String toString() {
+        return "Lessons{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", dateAndTime=" + dateAndTime +
+                ", maxGrade=" + maxGrade +
+                '}';
     }
 }
